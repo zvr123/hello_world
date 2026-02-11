@@ -8,4 +8,4 @@ COPY requirements.txt .
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-CMD ["python3","/usr/src/app.py"]
+CMD ["python3","/usr/src/hello.py"]
