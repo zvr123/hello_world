@@ -9,13 +9,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-      # coppies the entire folder into the newly created machine(VM)
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-# Create a docker with the hello app (steps from the Dockerfile)
-# Run the app in the new docker 
-# Push the newly created docker to DockerHub
-      - run: docker build -t zvr123/myhello .
-      - run: docker run -p 8080:8080 zvr123/myhello
-      - run: docker push zvr123/myhello
+      - name: Build image
+        run: docker build -t helloapp .
+
+      - name: Run container
+        run: docker run -d -p 8080:8080 --name flasktest helloapp
+
+      - name: Wait for helloapp
+        run: sleep 5
+
+      - name: Test endpoint
+        run: |
+          curl http://localhost:8080 | grep "Hello! I am a Flask application"
+
+      - name: Cleanup
+        run: docker rm -f flasktest
