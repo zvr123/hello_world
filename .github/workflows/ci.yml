@@ -10,6 +10,12 @@ jobs:
 
     steps:
       - name: Checkout repository
+      # coppies the entire folder into the newly created machine(VM)
         uses: actions/checkout@v4
 
-      - run: docker build -t myhello .
+# Create a docker with the hello app (steps from the Dockerfile)
+# Run the app in the new docker 
+# Push the newly created docker to DockerHub
+      - run: docker build -t zvr123/myhello .
+      - run: docker run -p 8080:8080 zvr123/myhello
+      - run: docker push zvr123/myhello
